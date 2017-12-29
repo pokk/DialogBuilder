@@ -1,4 +1,4 @@
-package taiwan.no.one.lib
+package com.devrapid.dialogbuilder
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -8,8 +8,8 @@ import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import taiwan.no.one.lib.typedata.DFBtn
-import taiwan.no.one.lib.typedata.DFListeners
+import com.devrapid.dialogbuilder.typedata.DFBtn
+import com.devrapid.dialogbuilder.typedata.DFListeners
 
 /**
  * @author  jieyi

@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="taiwan.no.one.sample.TestActivityViewModel"/>
+            type="com.devrapid.sample.TestActivityViewModel"/>
     </data>
 
     <LinearLayout

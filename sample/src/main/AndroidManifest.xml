@@ -1,4 +1,4 @@
-<manifest package="taiwan.no.one.sample"
+<manifest package="com.devrapid.sample"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="taiwan.no.one.sample.TestActivity">
+        <activity android:name="com.devrapid.sample.TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
