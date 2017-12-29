@@ -9,7 +9,7 @@ import taiwan.no.one.lib.support.QuickDialogFragment
  * @author  jieyi
  * @since   2017/12/29
  */
-class MainActivity : AppCompatActivity() {
+class TestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

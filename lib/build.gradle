@@ -19,9 +19,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    dataBinding {
-        enabled = true
-    }
+//    dataBinding { enabled = true }
 }
 
 dependencies {
@@ -36,3 +34,4 @@ dependencies {
 repositories {
     mavenCentral()
 }
+apply from: 'https://raw.githubusercontent.com/pokk/JCenterUploader/master/Uploader.gradle'
