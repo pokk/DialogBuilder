@@ -1,4 +1,4 @@
-package taiwan.no.one.lib
+package taiwan.no.one.lib.support
 
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -14,26 +14,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import taiwan.no.one.lib.DFBtn
+import taiwan.no.one.lib.DSFBListeners
 
 /**
  * @author  jieyi
  * @since   11/14/17
  */
 @SuppressLint("ValidFragment")
-class QuickSupportDialogBindingFragment<B : ViewDataBinding> private constructor(val mActivity: AppCompatActivity?,
-                                                                                 val mFragment: Fragment?,
-                                                                                 val btnPositive: DialogFragmentBtn?,
-                                                                                 val btnNegative: DialogFragmentBtn?,
-                                                                                 val clickListeners: DSFBListeners<B>?,
-                                                                                 val mCancelable: Boolean,
-                                                                                 val mTag: String,
+class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(val mActivity: AppCompatActivity?,
+                                                                          val mFragment: Fragment?,
+                                                                          val btnPositive: DFBtn?,
+                                                                          val btnNegative: DFBtn?,
+                                                                          val clickListeners: DSFBListeners<B>?,
+                                                                          val mCancelable: Boolean,
+                                                                          val mTag: String,
     // TODO(jieyi): 7/12/17 Implement the request code function.
-                                                                                 val requestCode: Int,
-                                                                                 @LayoutRes
-                                                                                 val viewCustom: Int,
-                                                                                 var fetchComponents: ((View) -> Unit)? = {},
-                                                                                 var message: String = "",
-                                                                                 var title: String?) : DialogFragment() {
+                                                                          val requestCode: Int,
+                                                                          @LayoutRes
+                                                                          val viewCustom: Int,
+                                                                          var fetchComponents: ((View) -> Unit)? = {},
+                                                                          var message: String = "",
+                                                                          var title: String?) : DialogFragment() {
     var bind: (binding: B) -> Unit = {}
     private val viewList by lazy { mutableListOf<View>() }
     lateinit private var binding: B
@@ -56,7 +58,7 @@ class QuickSupportDialogBindingFragment<B : ViewDataBinding> private constructor
         builder.title)
 
     /**
-     * A builder of [QuickSupportDialogBindingFragment].
+     * A builder of [QuickDialogBindingFragment].
      */
     class Builder<B : ViewDataBinding> {
         constructor(activity: AppCompatActivity, block: Builder<B>.() -> Unit) {
@@ -74,8 +76,8 @@ class QuickSupportDialogBindingFragment<B : ViewDataBinding> private constructor
         val activity: AppCompatActivity?
         val parentFragment: Fragment?
         var fetchComponents: ((View) -> Unit)? = null
-        var btnNegativeText: DialogFragmentBtn? = null
-        var btnPositiveText: DialogFragmentBtn? = null
+        var btnNegativeText: DFBtn? = null
+        var btnPositiveText: DFBtn? = null
         var cancelable: Boolean = true
         var clickListener: DSFBListeners<B>? = null
         var message: String? = null
@@ -85,7 +87,7 @@ class QuickSupportDialogBindingFragment<B : ViewDataBinding> private constructor
         @LayoutRes
         var viewCustom: Int = -1
 
-        fun build() = QuickSupportDialogBindingFragment(this)
+        fun build() = QuickDialogBindingFragment(this)
     }
 
     fun show() = show((mFragment?.fragmentManager ?: mActivity?.supportFragmentManager), mTag)
@@ -110,7 +112,7 @@ class QuickSupportDialogBindingFragment<B : ViewDataBinding> private constructor
             clickListeners?.forEach { (id, listener) ->
                 viewList.add(it.findViewById<View>(id).apply {
                     setOnClickListener {
-                        listener(this@QuickSupportDialogBindingFragment, it)
+                        listener(this@QuickDialogBindingFragment, it)
                     }
                 })
             }
@@ -146,8 +148,7 @@ class QuickSupportDialogBindingFragment<B : ViewDataBinding> private constructor
         super.onResume()
 
         if (0 < viewCustom) {
-            dialog.window.setLayout(resources.displayMetrics.widthPixels,
-                resources.displayMetrics.heightPixels)
+            dialog.window.setLayout(resources.displayMetrics.widthPixels, resources.displayMetrics.heightPixels)
         }
     }
 

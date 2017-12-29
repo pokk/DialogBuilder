@@ -20,8 +20,8 @@ import android.view.Window
 @SuppressLint("ValidFragment")
 class QuickDialogFragment private constructor(val mActivity: Activity?,
                                               val mFragment: Fragment?,
-                                              val btnPositive: DialogFragmentBtn?,
-                                              val btnNegative: DialogFragmentBtn?,
+                                              val btnPositive: DFBtn?,
+                                              val btnNegative: DFBtn?,
                                               val clickListeners: DFListeners?,
                                               val mCancelable: Boolean,
                                               val mTag: String,
@@ -70,8 +70,8 @@ class QuickDialogFragment private constructor(val mActivity: Activity?,
         val activity: Activity?
         val parentFragment: Fragment?
         var fetchComponents: ((View) -> Unit)? = null
-        var btnNegativeText: DialogFragmentBtn? = null
-        var btnPositiveText: DialogFragmentBtn? = null
+        var btnNegativeText: DFBtn? = null
+        var btnPositiveText: DFBtn? = null
         var cancelable: Boolean = true
         var clickListener: DFListeners? = null
         var message: String? = null

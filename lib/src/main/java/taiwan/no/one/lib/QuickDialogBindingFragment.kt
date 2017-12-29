@@ -22,8 +22,8 @@ import android.view.Window
 @SuppressLint("ValidFragment")
 class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(val mActivity: Activity?,
                                                                           val mFragment: Fragment?,
-                                                                          val btnPositive: DialogFragmentBtn?,
-                                                                          val btnNegative: DialogFragmentBtn?,
+                                                                          val btnPositive: DFBtn?,
+                                                                          val btnNegative: DFBtn?,
                                                                           val clickListeners: DFBListeners<B>?,
                                                                           val mCancelable: Boolean,
                                                                           val mTag: String,
@@ -74,8 +74,8 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(val mA
         val activity: Activity?
         val parentFragment: Fragment?
         var fetchComponents: ((View) -> Unit)? = null
-        var btnNegativeText: DialogFragmentBtn? = null
-        var btnPositiveText: DialogFragmentBtn? = null
+        var btnNegativeText: DFBtn? = null
+        var btnPositiveText: DFBtn? = null
         var cancelable: Boolean = true
         var clickListener: DFBListeners<B>? = null
         var message: String? = null
@@ -146,8 +146,7 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(val mA
         super.onResume()
 
         if (0 < viewCustom) {
-            dialog.window.setLayout(resources.displayMetrics.widthPixels,
-                resources.displayMetrics.heightPixels)
+            dialog.window.setLayout(resources.displayMetrics.widthPixels, resources.displayMetrics.heightPixels)
         }
     }
 
