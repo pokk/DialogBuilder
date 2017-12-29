@@ -60,10 +60,6 @@ freeline_project_description.json
 .idea/
 DB.iml
 DialogBuilder.iml
-app/libs/
-app/src/main/java/
 gradle/
 gradlew
 gradlew.bat
-lib/libs/
-lib/src/main/java/
