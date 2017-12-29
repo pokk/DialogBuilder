@@ -3,7 +3,6 @@ package taiwan.no.one.sample
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.btn
-import taiwan.no.one.lib.support.QuickDialogFragment
 
 /**
  * @author  jieyi
@@ -15,11 +14,11 @@ class TestActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         btn.setOnClickListener {
-            QuickDialogFragment.Builder(this) {
-                viewCustom = R.layout.fragment_dialog_test
-            }.build().apply {
-
-            }
+            //            QuickDialogFragment.Builder(this) {
+//                viewCustom = R.layout.fragment_dialog_test
+//            }.build().apply {
+//
+//            }
         }
     }
 }
