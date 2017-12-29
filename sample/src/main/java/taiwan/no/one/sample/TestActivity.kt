@@ -24,7 +24,9 @@ class TestActivity : AppCompatActivity() {
             QuickDialogBindingFragment.Builder<FragmentDialogBindBinding>(this) {
                 viewCustom = R.layout.fragment_dialog_bind
             }.build().apply {
-                bind = { it.vm = TestActivityViewModel() }
+                bind = {
+                    it.vm = TestActivityViewModel()
+                }
             }.show()
         }
     }

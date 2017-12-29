@@ -88,32 +88,6 @@ abstract class DialogFragmentTemplate internal constructor(val mActivity: AppCom
 
     fun show() = show((mFragment?.fragmentManager ?: mActivity?.supportFragmentManager), mTag)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
-        if (0 < viewCustom) {
-            provideView(inflater, container, savedInstanceState)
-//            LayoutInflater.from(activity?.applicationContext).inflate(viewCustom, null).also {
-//                onCreateDialogView(it)
-//            }
-        }
-        else {
-            super.onCreateView(inflater, container, savedInstanceState)
-        }
-
-    fun onCreateDialogView(view: View?) {
-        view?.let {
-            // Fetch the components from a view.
-            fetchComponents?.let { self -> self(it) }
-            // Set the listener into each of views.
-            clickListeners?.forEach { (id, listener) ->
-                viewList.add(it.findViewById<View>(id).apply {
-                    setOnClickListener {
-                        listener(this@DialogFragmentTemplate, it)
-                    }
-                })
-            }
-        }
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // If viewCustom is set then create a custom fragment; otherwise, just using simple AlertDialog.
         val dialog = if (0 < viewCustom) {
@@ -138,6 +112,14 @@ abstract class DialogFragmentTemplate internal constructor(val mActivity: AppCom
         }
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+        if (0 < viewCustom) {
+            provideView(inflater, container, savedInstanceState)
+        }
+        else {
+            super.onCreateView(inflater, container, savedInstanceState)
+        }
+
     override fun onResume() {
         super.onResume()
 
@@ -156,4 +138,19 @@ abstract class DialogFragmentTemplate internal constructor(val mActivity: AppCom
     }
 
     abstract fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+
+    fun onCreateDialogView(view: View?) {
+        view?.let {
+            // Fetch the components from a view.
+            fetchComponents?.let { self -> self(it) }
+            // Set the listener into each of views.
+            clickListeners?.forEach { (id, listener) ->
+                viewList.add(it.findViewById<View>(id).apply {
+                    setOnClickListener {
+                        listener(this@DialogFragmentTemplate, it)
+                    }
+                })
+            }
+        }
+    }
 }

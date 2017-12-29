@@ -2,6 +2,7 @@ package taiwan.no.one.sample
 
 import android.databinding.BaseObservable
 import android.databinding.ObservableField
+import android.view.View
 
 /**
  * @author  jieyi
@@ -9,4 +10,7 @@ import android.databinding.ObservableField
  */
 class TestActivityViewModel : BaseObservable() {
     val test by lazy { ObservableField<String>("Hello world!!!!!") }
+
+    fun click(view: View) {
+    }
 }
