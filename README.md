@@ -6,14 +6,30 @@ DialogFragment that we need to write many codes to archive it!
 Therefore, a builder for creatingDialogFragment is bron. Creating a DialogFragment is just like
 using a builder for it.
 
-> DialogFragment Builder also supports `MVVM`'s architecture.
+- DialogFragment Builder also supports `MVVM`'s architecture.
 
 # Show Case
 
 # How to use it
 
+### Simple Layout by Android SDK
+
 ```kotlin
 ```
+
+### Customize Layout
+
+```kotlin
+```
+
+## Using in the MVVM architecture
+
+### Simple Layout by Android SDK
+
+```kotlin
+```
+
+### Customize Layout
 
 In the `MVVM` architecture, you can create a dialog fragment as the following.
 
@@ -27,8 +43,10 @@ QuickDialogBindingFragment.Builder<FragmentDialogBindBinding>(this) {
 }.show()
 ```
 
-The snippet reference [sample](https://github.com/pokk/DialogBuilder/blob/68f396812c9f4059d3b5b7cd4e64bc28e6585c4e/sample/src/main/java/com/devrapid/sample/TestActivity.kt#L24-L30).
-And layout xml file is [here](https://github.com/pokk/DialogBuilder/blob/68f396812c9f4059d3b5b7cd4e64bc28e6585c4e/sample/src/main/res/layout/fragment_dialog_bind.xml#L9).
+The snippet reference
+[sample](https://github.com/pokk/DialogBuilder/blob/68f396812c9f4059d3b5b7cd4e64bc28e6585c4e/sample/src/main/java/com/devrapid/sample/TestActivity.kt#L24-L30).
+And layout xml file is
+[here](https://github.com/pokk/DialogBuilder/blob/68f396812c9f4059d3b5b7cd4e64bc28e6585c4e/sample/src/main/res/layout/fragment_dialog_bind.xml#L9).
 
 # How to import to your project
 
