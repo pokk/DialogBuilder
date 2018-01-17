@@ -1,12 +1,12 @@
 # DialogBuilder
 
 When using a **_DialogFragment_** is not really convenient to create one. We even create a simple
-DialogFragment that we need to write many codes to archive it!
+**_DialogFragment_** that we need to write many codes to archive it!
 
-Therefore, a builder for creatingDialogFragment is bron. Creating a DialogFragment is just like
+Therefore, a builder for creatingDialogFragment is bron. Creating a **_DialogFragment_** is just like
 using a builder for it.
 
-- DialogFragment Builder also supports `MVVM`'s architecture.
+- **_DialogFragment_** Builder also supports `MVVM`'s architecture.
 
 # Show Case
 
