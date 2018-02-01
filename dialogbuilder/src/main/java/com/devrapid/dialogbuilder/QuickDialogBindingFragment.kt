@@ -38,24 +38,24 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(val mA
                                                                           var title: String?) : DialogFragment() {
     var bind: (binding: B) -> Unit = {}
     private val viewList by lazy { mutableListOf<View>() }
-    lateinit private var binding: B
+    private lateinit var binding: B
 
     init {
         isCancelable = mCancelable
     }
 
     private constructor(builder: Builder<B>) : this(builder.activity,
-        builder.parentFragment,
-        builder.btnPositiveText,
-        builder.btnNegativeText,
-        builder.clickListener,
-        builder.cancelable,
-        builder.tag,
-        builder.requestCode,
-        builder.viewCustom,
-        builder.fetchComponents,
-        builder.message.orEmpty(),
-        builder.title)
+                                                    builder.parentFragment,
+                                                    builder.btnPositiveText,
+                                                    builder.btnNegativeText,
+                                                    builder.clickListener,
+                                                    builder.cancelable,
+                                                    builder.tag,
+                                                    builder.requestCode,
+                                                    builder.viewCustom,
+                                                    builder.fetchComponents,
+                                                    builder.message.orEmpty(),
+                                                    builder.title)
 
     /**
      * A builder of [QuickDialogBindingFragment].
@@ -93,7 +93,7 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(val mA
     fun show() = show((mFragment?.fragmentManager ?: mActivity?.fragmentManager), mTag)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        // If viewCustom is set then create a custom fragment; otherwise, just using simple AlertDialog.
+        // If viewResCustom is set then create a custom fragment; otherwise, just using simple AlertDialog.
         val dialog = if (0 < viewCustom) {
             super.onCreateDialog(savedInstanceState)
         }
@@ -119,9 +119,9 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(val mA
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?) =
         if (0 < viewCustom) {
             binding = DataBindingUtil.inflate(LayoutInflater.from(activity.applicationContext),
-                viewCustom,
-                null,
-                false)!!
+                                              viewCustom,
+                                              null,
+                                              false)!!
             bind(binding)
             binding.root
         }

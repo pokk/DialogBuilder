@@ -30,17 +30,17 @@ class QuickDialogFragment private constructor(val _activity: Activity?,
                                               var _fetchComponents: ((View) -> Unit)? = {},
                                               var _message: String = "",
                                               var _title: String?) : DialogFragmentTemplate(_activity,
-    _fragment,
-    _btnPositive,
-    _btnNegative,
-    _clickListeners,
-    _cancelable,
-    _tag,
-    _requestCode,
-    _viewCustom,
-    _fetchComponents,
-    _message,
-    _title) {
+                                                                                            _fragment,
+                                                                                            _btnPositive,
+                                                                                            _btnNegative,
+                                                                                            _clickListeners,
+                                                                                            _cancelable,
+                                                                                            _tag,
+                                                                                            _requestCode,
+                                                                                            _viewCustom,
+                                                                                            _fetchComponents,
+                                                                                            _message,
+                                                                                            _title) {
     private val viewList by lazy { mutableListOf<View>() }
 
     init {
@@ -48,17 +48,17 @@ class QuickDialogFragment private constructor(val _activity: Activity?,
     }
 
     private constructor(builder: Builder) : this(builder.activity,
-        builder.parentFragment,
-        builder.btnPositiveText,
-        builder.btnNegativeText,
-        builder.clickListener,
-        builder.cancelable,
-        builder.tag,
-        builder.requestCode,
-        builder.viewCustom,
-        builder.fetchComponents,
-        builder.message.orEmpty(),
-        builder.title)
+                                                 builder.parentFragment,
+                                                 builder.btnPositiveText,
+                                                 builder.btnNegativeText,
+                                                 builder.clickListener,
+                                                 builder.cancelable,
+                                                 builder.tag,
+                                                 builder.requestCode,
+                                                 builder.viewCustom,
+                                                 builder.fetchComponents,
+                                                 builder.message.orEmpty(),
+                                                 builder.title)
 
     /**
      * A builder of [QuickDialogFragment].
@@ -73,9 +73,10 @@ class QuickDialogFragment private constructor(val _activity: Activity?,
 
     override fun provideView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         if (0 < viewCustom) {
-            LayoutInflater.from(activity.applicationContext).inflate(viewCustom, null).also {
-                onCreateDialogView(it)
-            }
+            LayoutInflater
+                .from(activity.applicationContext)
+                .inflate(viewCustom, null)
+                .also { onCreateDialogView(it) }
         }
         else {
             super.onCreateView(inflater, container, savedInstanceState)

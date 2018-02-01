@@ -41,17 +41,17 @@ abstract class DialogFragmentTemplate internal constructor(val mActivity: AppCom
     }
 
     private constructor(builder: Builder) : this(builder.activity,
-        builder.parentFragment,
-        builder.btnPositiveText,
-        builder.btnNegativeText,
-        builder.clickListener,
-        builder.cancelable,
-        builder.tag,
-        builder.requestCode,
-        builder.viewCustom,
-        builder.fetchComponents,
-        builder.message.orEmpty(),
-        builder.title)
+                                                 builder.parentFragment,
+                                                 builder.btnPositiveText,
+                                                 builder.btnNegativeText,
+                                                 builder.clickListener,
+                                                 builder.cancelable,
+                                                 builder.tag,
+                                                 builder.requestCode,
+                                                 builder.viewResCustom,
+                                                 builder.fetchComponents,
+                                                 builder.message.orEmpty(),
+                                                 builder.title)
 
     /**
      * A builder of [DialogFragmentTemplate].
@@ -81,7 +81,7 @@ abstract class DialogFragmentTemplate internal constructor(val mActivity: AppCom
         var tag: String = "default"
         var title: String? = null
         @LayoutRes
-        var viewCustom: Int = -1
+        var viewResCustom: Int = -1
 
         abstract fun build(): DialogFragmentTemplate
     }
@@ -89,7 +89,7 @@ abstract class DialogFragmentTemplate internal constructor(val mActivity: AppCom
     fun show() = show((mFragment?.fragmentManager ?: mActivity?.supportFragmentManager), mTag)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        // If viewCustom is set then create a custom fragment; otherwise, just using simple AlertDialog.
+        // If viewResCustom is set then create a custom fragment; otherwise, just using simple AlertDialog.
         val dialog = if (0 < viewCustom) {
             super.onCreateDialog(savedInstanceState)
         }
@@ -120,11 +120,14 @@ abstract class DialogFragmentTemplate internal constructor(val mActivity: AppCom
             super.onCreateView(inflater, container, savedInstanceState)
         }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        if (0 < viewCustom) {
-            dialog.window.setLayout(resources.displayMetrics.widthPixels, resources.displayMetrics.heightPixels)
+        if (view is ViewGroup && 1 == view.childCount && view.getChildAt(0) is ViewGroup) {
+            view.getChildAt(0).layoutParams.apply {
+                if (ViewGroup.LayoutParams.MATCH_PARENT == height) height = resources.displayMetrics.heightPixels
+                if (ViewGroup.LayoutParams.MATCH_PARENT == width) width = resources.displayMetrics.widthPixels
+            }
         }
     }
 
