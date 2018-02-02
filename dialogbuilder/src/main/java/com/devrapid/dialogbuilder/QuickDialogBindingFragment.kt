@@ -14,7 +14,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import com.devrapid.dialogbuilder.typedata.DFBListeners
 import com.devrapid.dialogbuilder.typedata.DFBtn
 
 /**
@@ -22,40 +21,44 @@ import com.devrapid.dialogbuilder.typedata.DFBtn
  * @since   11/14/17
  */
 @SuppressLint("ValidFragment")
-class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(val mActivity: Activity?,
-                                                                          val mFragment: Fragment?,
-                                                                          val btnPositive: DFBtn?,
-                                                                          val btnNegative: DFBtn?,
-                                                                          val clickListeners: DFBListeners<B>?,
-                                                                          val mCancelable: Boolean,
-                                                                          val mTag: String,
-    // TODO(jieyi): 7/12/17 Implement the request code function.
-                                                                          val requestCode: Int,
+class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(protected val mActivity: Activity?,
+                                                                          protected val mFragment: Fragment?,
+    //region Alert Dialog Parameters
+                                                                          /** This is for Alert Dialog Parameter. */
+                                                                          protected var title: String = "",
+                                                                          protected var message: String = "",
+                                                                          protected val btnPositive: DFBtn?,
+                                                                          protected val btnNegative: DFBtn?,
+                                                                          protected val mCancelable: Boolean,
+                                                                          protected val mTag: String,
+    //endregion
+    //region Customize View Parameters
+                                                                          /**
+                                                                           *  The below parameters are for the customization view.
+                                                                           *  Once view is set, the parameters above here will be ignored.
+                                                                           */
                                                                           @LayoutRes
-                                                                          val viewCustom: Int,
-                                                                          var fetchComponents: ((View) -> Unit)? = {},
-                                                                          var message: String = "",
-                                                                          var title: String?) : DialogFragment() {
-    var bind: (binding: B) -> Unit = {}
-    private val viewList by lazy { mutableListOf<View>() }
-    private lateinit var binding: B
-
+                                                                          protected val viewCustom: Int,
+                                                                          protected var fetchComponents: ((View) -> Unit)? = {}
+    //endregion
+                                                                         ) : DialogFragment() {
     init {
         isCancelable = mCancelable
     }
 
+    var bind: (binding: B) -> Unit = {}
+    private lateinit var binding: B
+
     private constructor(builder: Builder<B>) : this(builder.activity,
                                                     builder.parentFragment,
+                                                    builder.title,
+                                                    builder.message,
                                                     builder.btnPositiveText,
                                                     builder.btnNegativeText,
-                                                    builder.clickListener,
                                                     builder.cancelable,
                                                     builder.tag,
-                                                    builder.requestCode,
                                                     builder.viewCustom,
-                                                    builder.fetchComponents,
-                                                    builder.message.orEmpty(),
-                                                    builder.title)
+                                                    builder.fetchComponents)
 
     /**
      * A builder of [QuickDialogBindingFragment].
@@ -75,17 +78,15 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(val mA
 
         val activity: Activity?
         val parentFragment: Fragment?
-        var fetchComponents: ((View) -> Unit)? = null
+        var title = ""
+        var message = ""
         var btnNegativeText: DFBtn? = null
         var btnPositiveText: DFBtn? = null
-        var cancelable: Boolean = true
-        var clickListener: DFBListeners<B>? = null
-        var message: String? = null
-        var requestCode: Int = -1
-        var tag: String = "default"
-        var title: String? = null
+        var cancelable = true
+        var tag = "default"
         @LayoutRes
-        var viewCustom: Int = -1
+        var viewCustom = -1
+        var fetchComponents: ((View) -> Unit)? = null
 
         fun build() = QuickDialogBindingFragment(this)
     }
@@ -101,16 +102,16 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(val mA
             AlertDialog.Builder(activity).create().also {
                 message.takeIf { it.isNotBlank() }.let(it::setMessage)
                 btnPositive?.let { (text, listener) ->
-                    it.setButton(Dialog.BUTTON_POSITIVE, text, listener)
+                    it.setButton(Dialog.BUTTON_POSITIVE, text, { dialog, _ -> listener(dialog) })
                 }
                 btnNegative?.let { (text, listener) ->
-                    it.setButton(Dialog.BUTTON_NEGATIVE, text, listener)
+                    it.setButton(Dialog.BUTTON_NEGATIVE, text, { dialog, _ -> listener(dialog) })
                 }
             }
         }
 
         return dialog.also {
-            title?.let(it::setTitle)
+            title.let(it::setTitle)
             it.requestWindowFeature(Window.FEATURE_NO_TITLE)
             it.setCanceledOnTouchOutside(true)
         }
@@ -140,25 +141,5 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(val mA
     override fun onDetach() {
         super.onDetach()
         fetchComponents = null
-        if (0 < viewCustom) {
-            viewList.forEach { it.setOnClickListener(null) }
-            viewList.clear()
-        }
-    }
-
-    fun onCreateDialogView(view: View?) {
-        view?.let {
-            // Fetch the components from a view.
-            fetchComponents?.let { self -> self(it) }
-            // Set the listener into each of views.
-            clickListeners?.forEach { (id, listener) ->
-                viewList.add(it.findViewById<View>(id).apply {
-                    setOnClickListener {
-                        listener(this@QuickDialogBindingFragment, it)
-                    }
-                })
-            }
-            bind(binding)
-        }
     }
 }
