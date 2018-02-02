@@ -19,16 +19,16 @@ import com.devrapid.dialogbuilder.typedata.DFBtn
  * @since   11/14/17
  */
 @SuppressLint("ValidFragment")
-abstract class DialogFragmentTemplate internal constructor(protected val mActivity: AppCompatActivity?,
-                                                           protected val mFragment: Fragment?,
+abstract class DialogFragmentTemplate internal constructor(private val mActivity: AppCompatActivity?,
+                                                           private val mFragment: Fragment?,
     //region Alert Dialog Parameters
                                                            /** This is for Alert Dialog Parameter. */
                                                            protected var title: String = "",
                                                            protected var message: String = "",
-                                                           protected val btnPositive: DFBtn?,
-                                                           protected val btnNegative: DFBtn?,
+                                                           private val btnPositive: DFBtn?,
+                                                           private val btnNegative: DFBtn?,
                                                            protected val mCancelable: Boolean,
-                                                           protected val mTag: String,
+                                                           private val mTag: String,
     //endregion
     //region Customize View Parameters
                                                            /**
@@ -37,7 +37,7 @@ abstract class DialogFragmentTemplate internal constructor(protected val mActivi
                                                             */
                                                            @LayoutRes
                                                            protected val viewCustom: Int,
-                                                           protected var fetchComponents: ((View) -> Unit)? = {}
+                                                           private var fetchComponents: ((View) -> Unit)? = {}
     //endregion
                                                           ) : DialogFragment() {
     init {

@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="250dp"
         android:layout_height="300dp"
+        android:layout_margin="16dp"
         android:orientation="vertical">
 
         <TextView
@@ -21,6 +22,6 @@
             android:id="@+id/btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BBBBBB"/>
+            android:text="Button"/>
     </LinearLayout>
 </LinearLayout>

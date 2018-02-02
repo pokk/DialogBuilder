@@ -2,9 +2,14 @@ package com.devrapid.sample
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
+import com.devrapid.dialogbuilder.support.QuickDialogBindingFragment
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
-import kotlinx.android.synthetic.main.activity_main.btn
-import kotlinx.android.synthetic.main.activity_main.view.btn
+import com.devrapid.sample.databinding.FragmentDialogBindBinding
+import kotlinx.android.synthetic.main.activity_main.btn1
+import kotlinx.android.synthetic.main.activity_main.btn2
+import kotlinx.android.synthetic.main.activity_main.btn3
+import kotlinx.android.synthetic.main.fragment_dialog_test.view.btn
 import kotlinx.android.synthetic.main.fragment_dialog_test.view.tv
 
 /**
@@ -17,7 +22,10 @@ class TestActivity : AppCompatActivity() {
         QuickDialogFragment.Builder(this) {
             viewResCustom = R.layout.fragment_dialog_test
             fetchComponents = { v ->
-                v.btn.setOnClickListener { /* What you want to do! */ }
+                v.btn.setOnClickListener {
+                    Toast.makeText(v.context, "Clicked!", Toast.LENGTH_SHORT).show()
+                    /* What you want to do! */
+                }
                 v.tv.text = "I was clicked!"
             }
         }.build()
@@ -35,20 +43,23 @@ class TestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btn.setOnClickListener {
+        btn1.setOnClickListener {
             // Normal Alert Dialog
-//            originalDialog.show()
+            originalDialog.show()
+        }
+        btn2.setOnClickListener {
             // Normal Customization
             dialog.show()
-
+        }
+        btn3.setOnClickListener {
             // Data binding
-//            QuickDialogBindingFragment.Builder<FragmentDialogBindBinding>(this) {
-//                viewResCustom = R.layout.fragment_dialog_bind
-//            }.build().apply {
-//                bind = {
-//                    it.vm = TestActivityViewModel()
-//                }
-//            }.show()
+            QuickDialogBindingFragment.Builder<FragmentDialogBindBinding>(this) {
+                viewResCustom = R.layout.fragment_dialog_bind
+            }.build().apply {
+                bind = {
+                    it.vm = TestActivityViewModel()
+                }
+            }.show()
         }
     }
 

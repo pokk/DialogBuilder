@@ -21,25 +21,24 @@ import com.devrapid.dialogbuilder.typedata.DFBtn
  * @since   11/14/17
  */
 @SuppressLint("ValidFragment")
-class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(protected val mActivity: Activity?,
-                                                                          protected val mFragment: Fragment?,
+class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(private val mActivity: Activity?,
+                                                                          private val mFragment: Fragment?,
     //region Alert Dialog Parameters
                                                                           /** This is for Alert Dialog Parameter. */
-                                                                          protected var title: String = "",
-                                                                          protected var message: String = "",
-                                                                          protected val btnPositive: DFBtn?,
-                                                                          protected val btnNegative: DFBtn?,
-                                                                          protected val mCancelable: Boolean,
-                                                                          protected val mTag: String,
+                                                                          private var title: String = "",
+                                                                          private var message: String = "",
+                                                                          private val btnPositive: DFBtn?,
+                                                                          private val btnNegative: DFBtn?,
+                                                                          private val mCancelable: Boolean,
+                                                                          private val mTag: String,
     //endregion
     //region Customize View Parameters
                                                                           /**
                                                                            *  The below parameters are for the customization view.
                                                                            *  Once view is set, the parameters above here will be ignored.
                                                                            */
-                                                                          @LayoutRes
-                                                                          protected val viewCustom: Int,
-                                                                          protected var fetchComponents: ((View) -> Unit)? = {}
+                                                                          @LayoutRes private val viewCustom: Int,
+                                                                          private var fetchComponents: ((View) -> Unit)? = {}
     //endregion
                                                                          ) : DialogFragment() {
     init {
