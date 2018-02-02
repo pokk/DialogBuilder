@@ -1,5 +1,8 @@
 # DialogBuilder
 
+[![GitHub release](https://img.shields.io/github/release/pokk/DialogBuilder.svg?style=flat-square)](https://github.com/pokk/DialogBuilder)
+[![license](https://img.shields.io/github/license/pokk/DialogBuilder.svg?style=flat-square)](https://github.com/pokk/DialogBuilder)
+
 When using a **_DialogFragment_** is not really convenient to create one. We even create a simple
 **_DialogFragment_** that we need to write many codes to archive it!
 
