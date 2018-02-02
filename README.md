@@ -4,30 +4,44 @@ When using a **_DialogFragment_** is not really convenient to create one. We eve
 **_DialogFragment_** that we need to write many codes to archive it!
 
 Therefore, a builder for creatingDialogFragment is bron. Creating a **_DialogFragment_** is just like
-using a builder for it.
+using a builder for it. There're few advantages as the followings,
 
-- **_DialogFragment_** Builder also supports `MVVM`'s architecture.
+1. Don't need to write the request code from activity for catching the event callback.
+2. Only few parameters, you can get a beautiful fragment dialog.
+
+- **_DialogFragment_** Builder also supports the databinding in `MVVM`'s architecture.
 
 # Show Case
 
 # How to use it
 
+Also the complete code is here.
+
 ### Simple Layout by Android SDK
 
 ```kotlin
+QuickDialogFragment.Builder(this) {
+    btnNegativeText = "negative" to { d -> /* What you want to do! */ }
+    btnPositiveText = "positive" to { d -> /* What you want to do! */ }
+    message = "The is message!"
+    title = "This is title!"
+    cancelable = false
+}.build()
 ```
 
 ### Customize Layout
 
 ```kotlin
+QuickDialogFragment.Builder(this) {
+    viewResCustom = R.layout.fragment_dialog_test
+    fetchComponents = { v ->
+        v.btn.setOnClickListener { /* What you want to do! */ }
+        v.tv.text = "I was clicked!"
+    }
+}.build()
 ```
 
-## Using in the MVVM architecture
-
-### Simple Layout by Android SDK
-
-```kotlin
-```
+## Using databinding in the MVVM architecture
 
 ### Customize Layout
 
@@ -48,6 +62,30 @@ The snippet reference
 And layout xml file is
 [here](https://github.com/pokk/DialogBuilder/blob/68f396812c9f4059d3b5b7cd4e64bc28e6585c4e/sample/src/main/res/layout/fragment_dialog_bind.xml#L9).
 
+## A little track about layout XML
+
+There're some issues I don't know how to fix it. If someone understands, please let me know kindly. 😀
+
+In the some situations, you need to modify the size of the fragment dialog. You can do it as like this way.
+
+```xml
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- ↓↓↓↓ Make double layout to assign your layout size. ↓↓↓↓ -->
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="300dp"
+        android:orientation="vertical">
+
+        ...
+    </LinearLayout>
+</LinearLayout>
+```
+
 # How to import to your project
 
 ## Gradle
@@ -65,7 +103,7 @@ allprojects {
 And add our dependency to your app `bundle.gradle`.
 
 ```gradle
-implementation 'com.devrapid.jieyi:dialogbuilder:0.0.4'
+implementation 'com.devrapid.jieyi:dialogbuilder:0.1.0'
 ```
 
 # Maven
@@ -74,11 +112,11 @@ implementation 'com.devrapid.jieyi:dialogbuilder:0.0.4'
 <dependency>
   <groupId>com.devrapid.jieyi</groupId>
   <artifactId>dialogbuilder</artifactId>
-  <version>0.0.4</version>
+  <version>0.1.0</version>
   <type>pom</type>
 </dependency>
 ```
 
 # Future Work
 
-- [ ] Change the dialog size
+- [x] Change the dialog size
