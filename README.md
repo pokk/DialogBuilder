@@ -16,6 +16,8 @@ using a builder for it. There're few advantages as the followings,
 
 # Show Case
 
+![animation](https://github.com/pokk/DialogBuilder/raw/master/gif/animation.gif)
+
 # How to use it
 
 Also the complete code is here.
