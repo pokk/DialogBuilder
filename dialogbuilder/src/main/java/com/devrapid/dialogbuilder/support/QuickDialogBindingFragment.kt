@@ -37,8 +37,7 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(privat
                                                                            *  The below parameters are for the customization view.
                                                                            *  Once view is set, the parameters above here will be ignored.
                                                                            */
-                                                                          @LayoutRes private val viewCustom: Int,
-                                                                          private var fetchComponents: ((View) -> Unit)? = {}
+                                                                          @LayoutRes private val viewCustom: Int
     //endregion
                                                                          ) : DialogFragment() {
     /** This is for data binding. */
@@ -57,8 +56,7 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(privat
                                                     builder.btnNegativeText,
                                                     builder.cancelable,
                                                     builder.tag,
-                                                    builder.viewResCustom,
-                                                    builder.fetchComponents)
+                                                    builder.viewResCustom)
 
     /**
      * A builder of [QuickDialogBindingFragment].
@@ -86,7 +84,6 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(privat
         var tag = "default"
         @LayoutRes
         var viewResCustom = -1
-        var fetchComponents: ((View) -> Unit)? = null
 
         fun build() = QuickDialogBindingFragment(this)
     }
@@ -135,10 +132,5 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(privat
         if (0 < viewCustom) {
             dialog.window.setLayout(resources.displayMetrics.widthPixels, resources.displayMetrics.heightPixels)
         }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        fetchComponents = null
     }
 }

@@ -3,6 +3,7 @@ package com.devrapid.dialogbuilder.support
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.annotation.LayoutRes
+import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
@@ -33,7 +34,7 @@ class QuickDialogFragment private constructor(private val _activity: AppCompatAc
                                                */
                                               @LayoutRes
                                               private val _viewCustom: Int,
-                                              private var _fetchComponents: ((View) -> Unit)? = {}
+                                              private var _fetchComponents: ((View, DialogFragment) -> Unit)? = null
     //endregion
                                              ) : DialogFragmentTemplate(_activity,
                                                                         _fragment,

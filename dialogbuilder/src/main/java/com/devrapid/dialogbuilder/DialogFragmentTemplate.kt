@@ -37,7 +37,7 @@ abstract class DialogFragmentTemplate internal constructor(private val mActivity
                                                             */
                                                            @LayoutRes
                                                            protected val viewCustom: Int,
-                                                           private var fetchComponents: ((View) -> Unit)? = {}
+                                                           private var fetchComponents: ((View, DialogFragment) -> Unit)? = null
     //endregion
                                                           ) : DialogFragment() {
     init {
@@ -81,7 +81,7 @@ abstract class DialogFragmentTemplate internal constructor(private val mActivity
         var tag = "default"
         @LayoutRes
         var viewCustom = -1
-        var fetchComponents: ((View) -> Unit)? = null
+        var fetchComponents: ((View, DialogFragment) -> Unit)? = null
 
         abstract fun build(): DialogFragmentTemplate
     }
@@ -141,7 +141,7 @@ abstract class DialogFragmentTemplate internal constructor(private val mActivity
     fun onCreateDialogView(view: View?) {
         view?.let {
             // Fetch the components from a view.
-            fetchComponents?.let { self -> self(it) }
+            fetchComponents?.let { self -> self(it, this) }
         }
     }
 }

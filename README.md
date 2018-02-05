@@ -39,7 +39,7 @@ QuickDialogFragment.Builder(this) {
 ```kotlin
 QuickDialogFragment.Builder(this) {
     viewResCustom = R.layout.fragment_dialog_test
-    fetchComponents = { v ->
+    fetchComponents = { v, df ->
         v.btn.setOnClickListener { /* What you want to do! */ }
         v.tv.text = "I was clicked!"
     }
@@ -108,7 +108,7 @@ allprojects {
 And add our dependency to your app `bundle.gradle`.
 
 ```gradle
-implementation 'com.devrapid.jieyi:dialogbuilder:0.1.0'
+implementation 'com.devrapid.jieyi:dialogbuilder:0.1.1'
 ```
 
 # Maven
@@ -117,7 +117,7 @@ implementation 'com.devrapid.jieyi:dialogbuilder:0.1.0'
 <dependency>
   <groupId>com.devrapid.jieyi</groupId>
   <artifactId>dialogbuilder</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <type>pom</type>
 </dependency>
 ```

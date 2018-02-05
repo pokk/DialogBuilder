@@ -11,7 +11,6 @@ import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import com.devrapid.dialogbuilder.typedata.DFBtn
@@ -37,8 +36,7 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(privat
                                                                            *  The below parameters are for the customization view.
                                                                            *  Once view is set, the parameters above here will be ignored.
                                                                            */
-                                                                          @LayoutRes private val viewCustom: Int,
-                                                                          private var fetchComponents: ((View) -> Unit)? = {}
+                                                                          @LayoutRes private val viewCustom: Int
     //endregion
                                                                          ) : DialogFragment() {
     init {
@@ -56,8 +54,7 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(privat
                                                     builder.btnNegativeText,
                                                     builder.cancelable,
                                                     builder.tag,
-                                                    builder.viewCustom,
-                                                    builder.fetchComponents)
+                                                    builder.viewCustom)
 
     /**
      * A builder of [QuickDialogBindingFragment].
@@ -85,7 +82,6 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(privat
         var tag = "default"
         @LayoutRes
         var viewCustom = -1
-        var fetchComponents: ((View) -> Unit)? = null
 
         fun build() = QuickDialogBindingFragment(this)
     }
@@ -135,10 +131,5 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(privat
         if (0 < viewCustom) {
             dialog.window.setLayout(resources.displayMetrics.widthPixels, resources.displayMetrics.heightPixels)
         }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        fetchComponents = null
     }
 }
