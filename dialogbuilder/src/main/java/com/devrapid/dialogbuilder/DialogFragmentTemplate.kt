@@ -19,27 +19,29 @@ import com.devrapid.dialogbuilder.typedata.DFBtn
  * @since   11/14/17
  */
 @SuppressLint("ValidFragment")
-abstract class DialogFragmentTemplate internal constructor(private val mActivity: Activity?,
-                                                           private val mFragment: Fragment?,
+abstract class DialogFragmentTemplate internal constructor(
+    private val mActivity: Activity?,
+    private val mFragment: Fragment?,
     //region Alert Dialog Parameters
-                                                           /** This is for Alert Dialog Parameter. */
-                                                           protected var title: String?,
-                                                           protected var message: String = "",
-                                                           private val btnPositive: DFBtn?,
-                                                           private val btnNegative: DFBtn?,
-                                                           protected val mCancelable: Boolean,
-                                                           private val mTag: String,
+    /** This is for Alert Dialog Parameter. */
+    protected var title: String?,
+    protected var message: String = "",
+    private val btnPositive: DFBtn?,
+    private val btnNegative: DFBtn?,
+    protected val mCancelable: Boolean,
+    private val mTag: String,
     //endregion
     //region Customize View Parameters
-                                                           /**
-                                                            *  The below parameters are for the customization view.
-                                                            *  Once view is set, the parameters above here will be ignored.
-                                                            */
-                                                           @LayoutRes
-                                                           protected val viewCustom: Int,
-                                                           private var fetchComponents: ((View, DialogFragment) -> Unit)? = null
+    /**
+     *  The below parameters are for the customization view.
+     *  Once view is set, the parameters above here will be ignored.
+     */
+    @LayoutRes
+    protected val viewCustom: Int,
+    protected var otherStyle: Pair<Int, Int>? = null,
+    private var fetchComponents: ((View, DialogFragment) -> Unit)? = null
     //endregion
-                                                          ) : DialogFragment() {
+) : DialogFragment() {
     init {
         isCancelable = mCancelable
     }
@@ -53,6 +55,7 @@ abstract class DialogFragmentTemplate internal constructor(private val mActivity
                                                  builder.cancelable,
                                                  builder.tag,
                                                  builder.viewCustom,
+                                                 builder.otherStyle,
                                                  builder.fetchComponents)
 
     /**
@@ -82,11 +85,18 @@ abstract class DialogFragmentTemplate internal constructor(private val mActivity
         @LayoutRes
         var viewCustom = -1
         var fetchComponents: ((View, DialogFragment) -> Unit)? = null
+        var otherStyle: Pair<Int, Int>? = null
 
         abstract fun build(): DialogFragmentTemplate
     }
 
     fun show() = show((mFragment?.fragmentManager ?: mActivity?.fragmentManager), mTag)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        otherStyle.takeIf { null != it }?.let { setStyle(it.first, it.second) }
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // If viewResCustom is set then create a custom fragment; otherwise, just using simple AlertDialog.

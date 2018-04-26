@@ -34,6 +34,7 @@ class QuickDialogFragment private constructor(private val _activity: AppCompatAc
                                                */
                                               @LayoutRes
                                               private val _viewCustom: Int,
+                                              private var _otherStyle: Pair<Int, Int>? = null,
                                               private var _fetchComponents: ((View, DialogFragment) -> Unit)? = null
     //endregion
                                              ) : DialogFragmentTemplate(_activity,
@@ -45,6 +46,7 @@ class QuickDialogFragment private constructor(private val _activity: AppCompatAc
                                                                         _cancelable,
                                                                         _tag,
                                                                         _viewCustom,
+                                                                        _otherStyle,
                                                                         _fetchComponents) {
     init {
         isCancelable = mCancelable
@@ -62,6 +64,7 @@ class QuickDialogFragment private constructor(private val _activity: AppCompatAc
         //endregion
         //region Customize View Parameters
                                                                       builder.viewResCustom,
+                                                                      builder.otherStyle,
                                                                       builder.fetchComponents
         //endregion
                                                                      )

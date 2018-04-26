@@ -1,6 +1,7 @@
 package com.devrapid.sample
 
 import android.os.Bundle
+import android.support.v4.app.DialogFragment
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.devrapid.dialogbuilder.support.QuickDialogBindingFragment
@@ -21,7 +22,8 @@ class TestActivity : AppCompatActivity() {
     private val dialog =
         QuickDialogFragment.Builder(this) {
             viewResCustom = R.layout.fragment_dialog_test
-            fetchComponents = { v ->
+            otherStyle = DialogFragment.STYLE_NORMAL to R.style.OtherTheme
+            fetchComponents = { v, df ->
                 v.btn.setOnClickListener {
                     Toast.makeText(v.context, "Clicked!", Toast.LENGTH_SHORT).show()
                     /* What you want to do! */
@@ -54,6 +56,7 @@ class TestActivity : AppCompatActivity() {
         btn3.setOnClickListener {
             // Data binding
             QuickDialogBindingFragment.Builder<FragmentDialogBindBinding>(this) {
+                otherStyle = DialogFragment.STYLE_NO_TITLE to R.style.OtherTheme
                 viewResCustom = R.layout.fragment_dialog_bind
             }.build().apply {
                 bind = {

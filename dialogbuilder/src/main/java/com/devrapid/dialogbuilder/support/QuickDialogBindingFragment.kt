@@ -21,25 +21,27 @@ import com.devrapid.dialogbuilder.typedata.DFBtn
  * @since   11/14/17
  */
 @SuppressLint("ValidFragment")
-class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(private val mActivity: AppCompatActivity?,
-                                                                          private val mFragment: Fragment?,
+class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
+    private val mActivity: AppCompatActivity?,
+    private val mFragment: Fragment?,
     //region Alert Dialog Parameters
-                                                                          /** This is for Alert Dialog Parameter. */
-                                                                          private var title: String?,
-                                                                          private var message: String = "",
-                                                                          private val btnPositive: DFBtn?,
-                                                                          private val btnNegative: DFBtn?,
-                                                                          private val mCancelable: Boolean,
-                                                                          private val mTag: String,
+    /** This is for Alert Dialog Parameter. */
+    private var title: String?,
+    private var message: String = "",
+    private val btnPositive: DFBtn?,
+    private val btnNegative: DFBtn?,
+    private val mCancelable: Boolean,
+    private val mTag: String,
     //endregion
     //region Customize View Parameters
-                                                                          /**
-                                                                           *  The below parameters are for the customization view.
-                                                                           *  Once view is set, the parameters above here will be ignored.
-                                                                           */
-                                                                          @LayoutRes private val viewCustom: Int
+    /**
+     *  The below parameters are for the customization view.
+     *  Once view is set, the parameters above here will be ignored.
+     */
+    @LayoutRes private val viewCustom: Int,
+    protected var otherStyle: Pair<Int, Int>? = null
     //endregion
-                                                                         ) : DialogFragment() {
+) : DialogFragment() {
     /** This is for data binding. */
     var bind: (binding: B) -> Unit = {}
     private lateinit var binding: B
@@ -56,7 +58,8 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(privat
                                                     builder.btnNegativeText,
                                                     builder.cancelable,
                                                     builder.tag,
-                                                    builder.viewResCustom)
+                                                    builder.viewResCustom,
+                                                    builder.otherStyle)
 
     /**
      * A builder of [QuickDialogBindingFragment].
@@ -84,11 +87,18 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(privat
         var tag = "default"
         @LayoutRes
         var viewResCustom = -1
+        var otherStyle: Pair<Int, Int>? = null
 
         fun build() = QuickDialogBindingFragment(this)
     }
 
     fun show() = show((mFragment?.fragmentManager ?: mActivity?.supportFragmentManager), mTag)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        otherStyle.takeIf { null != it }?.let { setStyle(it.first, it.second) }
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // If viewResCustom is set then create a custom fragment; otherwise, just using simple AlertDialog.

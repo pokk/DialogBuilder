@@ -16,36 +16,39 @@ import com.devrapid.dialogbuilder.typedata.DFBtn
  * @since   11/14/17
  */
 @SuppressLint("ValidFragment")
-class QuickDialogFragment private constructor(protected val _activity: Activity?,
-                                              protected val _fragment: Fragment?,
+class QuickDialogFragment private constructor(
+    protected val _activity: Activity?,
+    protected val _fragment: Fragment?,
     //region Alert Dialog Parameters
-                                              /** This is for Alert Dialog Parameter. */
-                                              protected var _title: String?,
-                                              protected var _message: String = "",
-                                              protected val _btnPositive: DFBtn?,
-                                              protected val _btnNegative: DFBtn?,
-                                              protected val _cancelable: Boolean,
-                                              protected val _tag: String,
+    /** This is for Alert Dialog Parameter. */
+    protected var _title: String?,
+    protected var _message: String = "",
+    protected val _btnPositive: DFBtn?,
+    protected val _btnNegative: DFBtn?,
+    protected val _cancelable: Boolean,
+    protected val _tag: String,
     //endregion
     //region Customize View Parameters
-                                              /**
-                                               *  The below parameters are for the customization view.
-                                               *  Once view is set, the parameters above here will be ignored.
-                                               */
-                                              @LayoutRes
-                                              protected val _viewCustom: Int,
-                                              protected var _fetchComponents: ((View, DialogFragment) -> Unit)? = null
+    /**
+     *  The below parameters are for the customization view.
+     *  Once view is set, the parameters above here will be ignored.
+     */
+    @LayoutRes
+    protected val _viewCustom: Int,
+    protected var _otherStyle: Pair<Int, Int>? = null,
+    protected var _fetchComponents: ((View, DialogFragment) -> Unit)? = null
     //endregion
-                                             ) : DialogFragmentTemplate(_activity,
-                                                                        _fragment,
-                                                                        _title,
-                                                                        _message,
-                                                                        _btnPositive,
-                                                                        _btnNegative,
-                                                                        _cancelable,
-                                                                        _tag,
-                                                                        _viewCustom,
-                                                                        _fetchComponents) {
+) : DialogFragmentTemplate(_activity,
+                           _fragment,
+                           _title,
+                           _message,
+                           _btnPositive,
+                           _btnNegative,
+                           _cancelable,
+                           _tag,
+                           _viewCustom,
+                           _otherStyle,
+                           _fetchComponents) {
     private val viewList by lazy { mutableListOf<View>() }
 
     init {
@@ -64,9 +67,10 @@ class QuickDialogFragment private constructor(protected val _activity: Activity?
         //endregion
         //region Customize View Parameters
                                                  builder.viewCustom,
+                                                 builder.otherStyle,
                                                  builder.fetchComponents
         //endregion
-                                                )
+    )
 
     /**
      * A builder of [QuickDialogFragment].
