@@ -3,6 +3,7 @@ package com.devrapid.dialogbuilder.support
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.annotation.LayoutRes
+import android.support.annotation.StyleRes
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -35,7 +36,7 @@ class QuickDialogFragment private constructor(
      */
     @LayoutRes
     private val _viewCustom: Int,
-    private var _otherStyle: Pair<Int, Int>? = null,
+    @StyleRes
     private var _themeStyle: Int? = null,
     private var _fetchComponents: ((View, DialogFragment) -> Unit)? = null
     //endregion
@@ -48,7 +49,6 @@ class QuickDialogFragment private constructor(
                            _cancelable,
                            _tag,
                            _viewCustom,
-                           _otherStyle,
                            _themeStyle,
                            _fetchComponents) {
     init {
@@ -67,7 +67,6 @@ class QuickDialogFragment private constructor(
         //endregion
         //region Customize View Parameters
                                                                       builder.viewResCustom,
-                                                                      builder.otherStyle,
                                                                       builder.themeStyle,
                                                                       builder.fetchComponents
         //endregion

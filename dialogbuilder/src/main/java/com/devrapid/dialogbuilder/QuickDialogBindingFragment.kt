@@ -10,6 +10,7 @@ import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.annotation.LayoutRes
+import android.support.annotation.StyleRes
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.Window
@@ -37,8 +38,10 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
      *  The below parameters are for the customization view.
      *  Once view is set, the parameters above here will be ignored.
      */
-    @LayoutRes private val viewCustom: Int,
-    protected var otherStyle: Pair<Int, Int>? = null
+    @LayoutRes
+    private val viewCustom: Int,
+    @StyleRes
+    private var themeStyle: Int? = null
     //endregion
 ) : DialogFragment() {
     init {
@@ -57,7 +60,7 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
                                                     builder.cancelable,
                                                     builder.tag,
                                                     builder.viewCustom,
-                                                    builder.otherStyle)
+                                                    builder.themeStyle)
 
     /**
      * A builder of [QuickDialogBindingFragment].
@@ -85,22 +88,19 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
         var tag = "default"
         @LayoutRes
         var viewCustom = -1
-        var otherStyle: Pair<Int, Int>? = null
+        @StyleRes
+        var themeStyle: Int? = null
 
         fun build() = QuickDialogBindingFragment(this)
     }
 
     fun show() = show((mFragment?.fragmentManager ?: mActivity?.fragmentManager), mTag)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        otherStyle.takeIf { null != it }?.let { setStyle(it.first, it.second) }
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // If viewResCustom is set then create a custom fragment; otherwise, just using simple AlertDialog.
         val dialog = if (0 < viewCustom) {
+            themeStyle.takeIf { null != it }?.let { setStyle(STYLE_NORMAL, it) }
+
             super.onCreateDialog(savedInstanceState)
         }
         else {

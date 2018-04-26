@@ -6,6 +6,7 @@ import android.app.DialogFragment
 import android.app.Fragment
 import android.os.Bundle
 import android.support.annotation.LayoutRes
+import android.support.annotation.StyleRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +36,8 @@ class QuickDialogFragment private constructor(
      */
     @LayoutRes
     protected val _viewCustom: Int,
-    protected var _otherStyle: Pair<Int, Int>? = null,
+    @StyleRes
+    protected var _themeStyle: Int? = null,
     protected var _fetchComponents: ((View, DialogFragment) -> Unit)? = null
     //endregion
 ) : DialogFragmentTemplate(_activity,
@@ -47,7 +49,7 @@ class QuickDialogFragment private constructor(
                            _cancelable,
                            _tag,
                            _viewCustom,
-                           _otherStyle,
+                           _themeStyle,
                            _fetchComponents) {
     private val viewList by lazy { mutableListOf<View>() }
 
@@ -67,7 +69,7 @@ class QuickDialogFragment private constructor(
         //endregion
         //region Customize View Parameters
                                                  builder.viewCustom,
-                                                 builder.otherStyle,
+                                                 builder.themeStyle,
                                                  builder.fetchComponents
         //endregion
     )

@@ -40,7 +40,6 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
      *  Once view is set, the parameters above here will be ignored.
      */
     @LayoutRes private val viewCustom: Int,
-    protected var otherStyle: Pair<Int, Int>? = null,
     @StyleRes private var themeStyle: Int? = null
     //endregion
 ) : DialogFragment() {
@@ -61,7 +60,6 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
                                                     builder.cancelable,
                                                     builder.tag,
                                                     builder.viewResCustom,
-                                                    builder.otherStyle,
                                                     builder.themeStyle)
 
     /**
@@ -90,19 +88,13 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
         var tag = "default"
         @LayoutRes
         var viewResCustom = -1
-        var otherStyle: Pair<Int, Int>? = null
+        @StyleRes
         var themeStyle: Int? = null
 
         fun build() = QuickDialogBindingFragment(this)
     }
 
     fun show() = show((mFragment?.fragmentManager ?: mActivity?.supportFragmentManager), mTag)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        otherStyle.takeIf { null != it }?.let { setStyle(it.first, it.second) }
-    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // If viewResCustom is set then create a custom fragment; otherwise, just using simple AlertDialog.

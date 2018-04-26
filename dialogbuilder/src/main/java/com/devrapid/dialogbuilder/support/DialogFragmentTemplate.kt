@@ -42,7 +42,7 @@ abstract class DialogFragmentTemplate internal constructor(
      */
     @LayoutRes
     protected val viewCustom: Int,
-    protected var otherStyle: Pair<Int, Int>? = null,
+    @StyleRes
     private var themeStyle: Int? = null,
     private var fetchComponents: ((View, DialogFragment) -> Unit)? = null
     //endregion
@@ -60,7 +60,6 @@ abstract class DialogFragmentTemplate internal constructor(
                                                  builder.cancelable,
                                                  builder.tag,
                                                  builder.viewResCustom,
-                                                 builder.otherStyle,
                                                  builder.themeStyle,
                                                  builder.fetchComponents)
 
@@ -88,9 +87,10 @@ abstract class DialogFragmentTemplate internal constructor(
         var btnNegativeText: DFBtn? = null
         var tag: String = "default"
         var cancelable: Boolean = true
-        @LayoutRes var viewResCustom: Int = -1
-        var otherStyle: Pair<Int, Int>? = null
-        @StyleRes var themeStyle: Int? = null
+        @LayoutRes
+        var viewResCustom: Int = -1
+        @StyleRes
+        var themeStyle: Int? = null
         var fetchComponents: ((View, DialogFragment) -> Unit)? = null
 
         abstract fun build(): DialogFragmentTemplate
@@ -102,6 +102,7 @@ abstract class DialogFragmentTemplate internal constructor(
         // If viewResCustom is set then create a custom fragment; otherwise, just using simple AlertDialog.
         val dialog = if (0 < viewCustom) {
             themeStyle.takeIf { null != it }?.let { setStyle(STYLE_NORMAL, it) }
+
             super.onCreateDialog(savedInstanceState)
         }
         else {
@@ -135,10 +136,6 @@ abstract class DialogFragmentTemplate internal constructor(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if (0 < viewCustom && null != themeStyle) {
-            setStyle(STYLE_NORMAL, themeStyle!!)
-        }
 
         if (view is ViewGroup && 1 == view.childCount && view.getChildAt(0) is ViewGroup) {
             view.getChildAt(0).layoutParams.apply {

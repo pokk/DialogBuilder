@@ -8,6 +8,7 @@ import android.app.DialogFragment
 import android.app.Fragment
 import android.os.Bundle
 import android.support.annotation.LayoutRes
+import android.support.annotation.StyleRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +39,8 @@ abstract class DialogFragmentTemplate internal constructor(
      */
     @LayoutRes
     protected val viewCustom: Int,
-    protected var otherStyle: Pair<Int, Int>? = null,
+    @StyleRes
+    private var themeStyle: Int? = null,
     private var fetchComponents: ((View, DialogFragment) -> Unit)? = null
     //endregion
 ) : DialogFragment() {
@@ -55,7 +57,7 @@ abstract class DialogFragmentTemplate internal constructor(
                                                  builder.cancelable,
                                                  builder.tag,
                                                  builder.viewCustom,
-                                                 builder.otherStyle,
+                                                 builder.themeStyle,
                                                  builder.fetchComponents)
 
     /**
@@ -84,23 +86,19 @@ abstract class DialogFragmentTemplate internal constructor(
         var tag = "default"
         @LayoutRes
         var viewCustom = -1
+        @StyleRes
+        var themeStyle: Int? = null
         var fetchComponents: ((View, DialogFragment) -> Unit)? = null
-        var otherStyle: Pair<Int, Int>? = null
 
         abstract fun build(): DialogFragmentTemplate
     }
 
     fun show() = show((mFragment?.fragmentManager ?: mActivity?.fragmentManager), mTag)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        otherStyle.takeIf { null != it }?.let { setStyle(it.first, it.second) }
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // If viewResCustom is set then create a custom fragment; otherwise, just using simple AlertDialog.
         val dialog = if (0 < viewCustom) {
+            themeStyle.takeIf { null != it }?.let { setStyle(DialogFragment.STYLE_NORMAL, it) }
             super.onCreateDialog(savedInstanceState)
         }
         else {
