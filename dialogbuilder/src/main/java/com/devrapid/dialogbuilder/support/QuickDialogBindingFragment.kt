@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.annotation.LayoutRes
+import android.support.annotation.StyleRes
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
@@ -39,7 +40,8 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
      *  Once view is set, the parameters above here will be ignored.
      */
     @LayoutRes private val viewCustom: Int,
-    protected var otherStyle: Pair<Int, Int>? = null
+    protected var otherStyle: Pair<Int, Int>? = null,
+    @StyleRes private var themeStyle: Int? = null
     //endregion
 ) : DialogFragment() {
     /** This is for data binding. */
@@ -59,7 +61,8 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
                                                     builder.cancelable,
                                                     builder.tag,
                                                     builder.viewResCustom,
-                                                    builder.otherStyle)
+                                                    builder.otherStyle,
+                                                    builder.themeStyle)
 
     /**
      * A builder of [QuickDialogBindingFragment].
@@ -88,6 +91,7 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
         @LayoutRes
         var viewResCustom = -1
         var otherStyle: Pair<Int, Int>? = null
+        var themeStyle: Int? = null
 
         fun build() = QuickDialogBindingFragment(this)
     }
@@ -106,15 +110,17 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
             super.onCreateDialog(savedInstanceState)
         }
         else {
-            AlertDialog.Builder(activity!!).create().also {
-                message.takeIf { it.isNotBlank() }.let(it::setMessage)
-                btnPositive?.let { (text, listener) ->
-                    it.setButton(Dialog.BUTTON_POSITIVE, text, { dialog, _ -> listener(dialog) })
+            (if (null != themeStyle) AlertDialog.Builder(activity!!, themeStyle!!) else AlertDialog.Builder(activity!!))
+                .create()
+                .also {
+                    message.takeIf { it.isNotBlank() }.let(it::setMessage)
+                    btnPositive?.let { (text, listener) ->
+                        it.setButton(Dialog.BUTTON_POSITIVE, text, { dialog, _ -> listener(dialog) })
+                    }
+                    btnNegative?.let { (text, listener) ->
+                        it.setButton(Dialog.BUTTON_NEGATIVE, text, { dialog, _ -> listener(dialog) })
+                    }
                 }
-                btnNegative?.let { (text, listener) ->
-                    it.setButton(Dialog.BUTTON_NEGATIVE, text, { dialog, _ -> listener(dialog) })
-                }
-            }
         }
 
         return dialog.also {

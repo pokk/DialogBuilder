@@ -22,7 +22,7 @@ class TestActivity : AppCompatActivity() {
     private val dialog =
         QuickDialogFragment.Builder(this) {
             viewResCustom = R.layout.fragment_dialog_test
-            otherStyle = DialogFragment.STYLE_NORMAL to R.style.OtherTheme
+            themeStyle = R.style.NormalTheme
             fetchComponents = { v, df ->
                 v.btn.setOnClickListener {
                     Toast.makeText(v.context, "Clicked!", Toast.LENGTH_SHORT).show()
@@ -34,6 +34,7 @@ class TestActivity : AppCompatActivity() {
 
     /** Normal Alert Dialog */
     private val originalDialog = QuickDialogFragment.Builder(this) {
+        themeStyle = R.style.OtherTheme
         btnNegativeText = "negative" to { d -> /* What you want to do! */ }
         btnPositiveText = "positive" to { d -> /* What you want to do! */ }
         message = "The is message!"

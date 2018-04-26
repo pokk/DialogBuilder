@@ -2,8 +2,11 @@ package com.devrapid.dialogbuilder.support
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.app.Dialog.BUTTON_NEGATIVE
+import android.app.Dialog.BUTTON_POSITIVE
 import android.os.Bundle
 import android.support.annotation.LayoutRes
+import android.support.annotation.StyleRes
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
@@ -11,6 +14,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.Window
 import com.devrapid.dialogbuilder.typedata.DFBtn
 
@@ -39,6 +43,7 @@ abstract class DialogFragmentTemplate internal constructor(
     @LayoutRes
     protected val viewCustom: Int,
     protected var otherStyle: Pair<Int, Int>? = null,
+    private var themeStyle: Int? = null,
     private var fetchComponents: ((View, DialogFragment) -> Unit)? = null
     //endregion
 ) : DialogFragment() {
@@ -56,6 +61,7 @@ abstract class DialogFragmentTemplate internal constructor(
                                                  builder.tag,
                                                  builder.viewResCustom,
                                                  builder.otherStyle,
+                                                 builder.themeStyle,
                                                  builder.fetchComponents)
 
     /**
@@ -82,9 +88,9 @@ abstract class DialogFragmentTemplate internal constructor(
         var btnNegativeText: DFBtn? = null
         var tag: String = "default"
         var cancelable: Boolean = true
-        @LayoutRes
-        var viewResCustom: Int = -1
+        @LayoutRes var viewResCustom: Int = -1
         var otherStyle: Pair<Int, Int>? = null
+        @StyleRes var themeStyle: Int? = null
         var fetchComponents: ((View, DialogFragment) -> Unit)? = null
 
         abstract fun build(): DialogFragmentTemplate
@@ -92,27 +98,24 @@ abstract class DialogFragmentTemplate internal constructor(
 
     fun show() = show((mFragment?.fragmentManager ?: mActivity?.supportFragmentManager), mTag)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        otherStyle.takeIf { null != it }?.let { setStyle(it.first, it.second) }
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // If viewResCustom is set then create a custom fragment; otherwise, just using simple AlertDialog.
         val dialog = if (0 < viewCustom) {
+            themeStyle.takeIf { null != it }?.let { setStyle(STYLE_NORMAL, it) }
             super.onCreateDialog(savedInstanceState)
         }
         else {
-            AlertDialog.Builder(activity!!).create().also {
-                message.takeIf { it.isNotBlank() }.let(it::setMessage)
-                btnPositive?.let { (text, listener) ->
-                    it.setButton(Dialog.BUTTON_POSITIVE, text, { dialog, _ -> listener(dialog) })
+            (if (null != themeStyle) AlertDialog.Builder(activity!!, themeStyle!!) else AlertDialog.Builder(activity!!))
+                .create()
+                .also {
+                    message.takeIf { it.isNotBlank() }.let(it::setMessage)
+                    btnPositive?.let { (text, listener) ->
+                        it.setButton(BUTTON_POSITIVE, text, { dialog, _ -> listener(dialog) })
+                    }
+                    btnNegative?.let { (text, listener) ->
+                        it.setButton(BUTTON_NEGATIVE, text, { dialog, _ -> listener(dialog) })
+                    }
                 }
-                btnNegative?.let { (text, listener) ->
-                    it.setButton(Dialog.BUTTON_NEGATIVE, text, { dialog, _ -> listener(dialog) })
-                }
-            }
         }
 
         return dialog.also {
@@ -133,10 +136,14 @@ abstract class DialogFragmentTemplate internal constructor(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (0 < viewCustom && null != themeStyle) {
+            setStyle(STYLE_NORMAL, themeStyle!!)
+        }
+
         if (view is ViewGroup && 1 == view.childCount && view.getChildAt(0) is ViewGroup) {
             view.getChildAt(0).layoutParams.apply {
-                if (ViewGroup.LayoutParams.MATCH_PARENT == height) height = resources.displayMetrics.heightPixels
-                if (ViewGroup.LayoutParams.MATCH_PARENT == width) width = resources.displayMetrics.widthPixels
+                if (MATCH_PARENT == height) height = resources.displayMetrics.heightPixels
+                if (MATCH_PARENT == width) width = resources.displayMetrics.widthPixels
             }
         }
     }

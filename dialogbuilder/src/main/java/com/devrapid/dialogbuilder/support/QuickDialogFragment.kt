@@ -16,38 +16,41 @@ import com.devrapid.dialogbuilder.typedata.DFBtn
  * @since   11/14/17
  */
 @SuppressLint("ValidFragment")
-class QuickDialogFragment private constructor(private val _activity: AppCompatActivity?,
-                                              private val _fragment: Fragment?,
+class QuickDialogFragment private constructor(
+    _activity: AppCompatActivity?,
+    _fragment: Fragment?,
     //region Alert Dialog Parameters
-                                              /** This is for Alert Dialog Parameter. */
-                                              private var _title: String = "",
-                                              private var _message: String = "",
-                                              private val _btnPositive: DFBtn?,
-                                              private val _btnNegative: DFBtn?,
-                                              private val _cancelable: Boolean,
-                                              private val _tag: String,
+    /** This is for Alert Dialog Parameter. */
+    private var _title: String = "",
+    private var _message: String = "",
+    private val _btnPositive: DFBtn?,
+    private val _btnNegative: DFBtn?,
+    private val _cancelable: Boolean,
+    private val _tag: String,
     //endregion
     //region Customize View Parameters
-                                              /**
-                                               *  The below parameters are for the customization view.
-                                               *  Once view is set, the parameters above here will be ignored.
-                                               */
-                                              @LayoutRes
-                                              private val _viewCustom: Int,
-                                              private var _otherStyle: Pair<Int, Int>? = null,
-                                              private var _fetchComponents: ((View, DialogFragment) -> Unit)? = null
+    /**
+     *  The below parameters are for the customization view.
+     *  Once view is set, the parameters above here will be ignored.
+     */
+    @LayoutRes
+    private val _viewCustom: Int,
+    private var _otherStyle: Pair<Int, Int>? = null,
+    private var _themeStyle: Int? = null,
+    private var _fetchComponents: ((View, DialogFragment) -> Unit)? = null
     //endregion
-                                             ) : DialogFragmentTemplate(_activity,
-                                                                        _fragment,
-                                                                        _title,
-                                                                        _message,
-                                                                        _btnPositive,
-                                                                        _btnNegative,
-                                                                        _cancelable,
-                                                                        _tag,
-                                                                        _viewCustom,
-                                                                        _otherStyle,
-                                                                        _fetchComponents) {
+) : DialogFragmentTemplate(_activity,
+                           _fragment,
+                           _title,
+                           _message,
+                           _btnPositive,
+                           _btnNegative,
+                           _cancelable,
+                           _tag,
+                           _viewCustom,
+                           _otherStyle,
+                           _themeStyle,
+                           _fetchComponents) {
     init {
         isCancelable = mCancelable
     }
@@ -65,9 +68,10 @@ class QuickDialogFragment private constructor(private val _activity: AppCompatAc
         //region Customize View Parameters
                                                                       builder.viewResCustom,
                                                                       builder.otherStyle,
+                                                                      builder.themeStyle,
                                                                       builder.fetchComponents
         //endregion
-                                                                     )
+    )
 
     class Builder : DialogFragmentTemplate.Builder {
         constructor(activity: AppCompatActivity, block: DialogFragmentTemplate.Builder.() -> Unit) :
@@ -84,7 +88,7 @@ class QuickDialogFragment private constructor(private val _activity: AppCompatAc
             LayoutInflater
                 .from(activity?.applicationContext)
                 .inflate(viewCustom, null)
-                .also { onCreateDialogView(it) }
+                .also(::onCreateDialogView)
         }
         else {
             super.onCreateView(inflater, container, savedInstanceState)
