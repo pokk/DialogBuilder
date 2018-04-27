@@ -21,7 +21,6 @@ class TestActivity : AppCompatActivity() {
     private val dialog =
         QuickDialogFragment.Builder(this) {
             viewResCustom = R.layout.fragment_dialog_test
-//            themeStyle = R.style.NormalTheme
             fetchComponents = { v, df ->
                 v.btn.setOnClickListener {
                     Toast.makeText(v.context, "Clicked!", Toast.LENGTH_SHORT).show()

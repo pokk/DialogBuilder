@@ -13,16 +13,6 @@
         <item name="colorPrimary">#3A1616</item>
         <item name="colorPrimaryDark">#240000</item>
         <item name="colorAccent">#7C6666</item>
-        <item name="android:textColor">#ff11ff</item>
-    </style>
-
-    <style name="NormalTheme" parent="Theme.AppCompat.Dialog">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">#3A1616</item>
-        <item name="colorPrimaryDark">#240000</item>
-        <item name="colorAccent">#7C6666</item>
-        <item name="android:textColor">#ff1133</item>
-        <item name="android:background">#ff11ff</item>
     </style>
 
 </resources>

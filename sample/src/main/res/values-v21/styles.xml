@@ -1,0 +1,10 @@
+<resources>
+
+    <style name="NormalTheme" parent="Theme.AppCompat.Light.Dialog">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#3A1616</item>
+        <item name="colorPrimaryDark">#240000</item>
+        <item name="colorAccent">#7C6666</item>
+    </style>
+
+</resources>
