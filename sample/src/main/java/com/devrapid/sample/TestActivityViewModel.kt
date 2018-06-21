@@ -1,7 +1,7 @@
 package com.devrapid.sample
 
-import android.databinding.BaseObservable
-import android.databinding.ObservableField
+import androidx.databinding.BaseObservable
+import androidx.databinding.ObservableField
 import android.view.View
 
 /**

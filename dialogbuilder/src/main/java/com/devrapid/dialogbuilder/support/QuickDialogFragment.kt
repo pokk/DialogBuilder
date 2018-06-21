@@ -2,11 +2,11 @@ package com.devrapid.dialogbuilder.support
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.annotation.StyleRes
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import androidx.annotation.LayoutRes
+import androidx.annotation.StyleRes
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +19,7 @@ import com.devrapid.dialogbuilder.typedata.DFBtn
 @SuppressLint("ValidFragment")
 class QuickDialogFragment private constructor(
     _activity: AppCompatActivity?,
-    _fragment: Fragment?,
+    _fragment: androidx.fragment.app.Fragment?,
     //region Alert Dialog Parameters
     /** This is for Alert Dialog Parameter. */
     private var _title: String = "",
@@ -38,7 +38,7 @@ class QuickDialogFragment private constructor(
     private val _viewCustom: Int,
     @StyleRes
     private var _themeStyle: Int? = null,
-    private var _fetchComponents: ((View, DialogFragment) -> Unit)? = null
+    private var _fetchComponents: ((View, androidx.fragment.app.DialogFragment) -> Unit)? = null
     //endregion
 ) : DialogFragmentTemplate(_activity,
                            _fragment,
@@ -76,7 +76,7 @@ class QuickDialogFragment private constructor(
         constructor(activity: AppCompatActivity, block: DialogFragmentTemplate.Builder.() -> Unit) :
             super(activity, block)
 
-        constructor(fragment: Fragment, block: DialogFragmentTemplate.Builder.() -> Unit) :
+        constructor(fragment: androidx.fragment.app.Fragment, block: DialogFragmentTemplate.Builder.() -> Unit) :
             super(fragment, block)
 
         override fun build() = QuickDialogFragment(this)

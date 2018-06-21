@@ -1,7 +1,7 @@
 package com.devrapid.sample
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
 import com.devrapid.dialogbuilder.support.QuickDialogBindingFragment
 import com.devrapid.dialogbuilder.support.QuickDialogFragment

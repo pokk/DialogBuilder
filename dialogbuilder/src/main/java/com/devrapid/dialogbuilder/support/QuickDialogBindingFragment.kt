@@ -2,15 +2,15 @@ package com.devrapid.dialogbuilder.support
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.annotation.StyleRes
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.Fragment
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
+import androidx.annotation.LayoutRes
+import androidx.annotation.StyleRes
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +24,7 @@ import com.devrapid.dialogbuilder.typedata.DFBtn
 @SuppressLint("ValidFragment")
 class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
     private val mActivity: AppCompatActivity?,
-    private val mFragment: Fragment?,
+    private val mFragment: androidx.fragment.app.Fragment?,
     //region Alert Dialog Parameters
     /** This is for Alert Dialog Parameter. */
     private var title: String?,
