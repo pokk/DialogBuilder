@@ -124,4 +124,4 @@ implementation 'com.devrapid.jieyi:dialogbuilder:1.0.1'
 
 # Future Work
 
-- [x] Change the dialog size
+-[x] Change the dialog size
