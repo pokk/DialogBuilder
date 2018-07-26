@@ -87,9 +87,8 @@ class QuickDialogFragment private constructor(
 
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         if (0 < viewCustom) {
-            LayoutInflater
-                .from(activity?.applicationContext)
-                .inflate(viewCustom, null)
+            LayoutInflater.from(activity?.applicationContext)
+                .inflate(viewCustom, container, false)
                 .also(::onCreateDialogView)
         }
         else {

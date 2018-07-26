@@ -115,10 +115,10 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
                 .also {
                     message.takeIf { it.isNotBlank() }.let(it::setMessage)
                     btnPositive?.let { (text, listener) ->
-                        it.setButton(Dialog.BUTTON_POSITIVE, text, { dialog, _ -> listener(dialog) })
+                        it.setButton(Dialog.BUTTON_POSITIVE, text) { dialog, _ -> listener(dialog) }
                     }
                     btnNegative?.let { (text, listener) ->
-                        it.setButton(Dialog.BUTTON_NEGATIVE, text, { dialog, _ -> listener(dialog) })
+                        it.setButton(Dialog.BUTTON_NEGATIVE, text) { dialog, _ -> listener(dialog) }
                     }
                 }
         }
@@ -134,7 +134,7 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
         if (0 < viewCustom) {
             binding = DataBindingUtil.inflate(LayoutInflater.from(activity?.applicationContext),
                                               viewCustom,
-                                              null,
+                                              container,
                                               false)!!
             bind(binding)
             binding.root
