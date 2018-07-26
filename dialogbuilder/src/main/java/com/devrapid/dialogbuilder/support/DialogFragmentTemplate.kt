@@ -44,7 +44,8 @@ abstract class DialogFragmentTemplate internal constructor(
     protected val viewCustom: Int,
     @StyleRes
     private var themeStyle: Int? = null,
-    private var fetchComponents: ((View, DialogFragment) -> Unit)? = null
+    private var fetchComponents: ((View, DialogFragment) -> Unit)? = null,
+    private var onStartBlock: ((DialogFragmentTemplate) -> Unit)? = null
     //endregion
 ) : DialogFragment() {
     init {
@@ -92,11 +93,17 @@ abstract class DialogFragmentTemplate internal constructor(
         @StyleRes
         var themeStyle: Int? = null
         var fetchComponents: ((View, DialogFragment) -> Unit)? = null
+        var onStartBlock: ((DialogFragment) -> Unit)? = null
 
         abstract fun build(): DialogFragmentTemplate
     }
 
     fun show() = show((mFragment?.fragmentManager ?: mActivity?.supportFragmentManager), mTag)
+
+    override fun onStart() {
+        super.onStart()
+        onStartBlock?.invoke(this)
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // If viewResCustom is set then create a custom fragment; otherwise, just using simple AlertDialog.
@@ -111,10 +118,10 @@ abstract class DialogFragmentTemplate internal constructor(
                 .also {
                     message.takeIf { it.isNotBlank() }.let(it::setMessage)
                     btnPositive?.let { (text, listener) ->
-                        it.setButton(BUTTON_POSITIVE, text, { dialog, _ -> listener(dialog) })
+                        it.setButton(BUTTON_POSITIVE, text) { dialog, _ -> listener(dialog) }
                     }
                     btnNegative?.let { (text, listener) ->
-                        it.setButton(BUTTON_NEGATIVE, text, { dialog, _ -> listener(dialog) })
+                        it.setButton(BUTTON_NEGATIVE, text) { dialog, _ -> listener(dialog) }
                     }
                 }
         }

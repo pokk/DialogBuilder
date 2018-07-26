@@ -2,19 +2,19 @@ package com.devrapid.dialogbuilder.support
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import android.os.Bundle
-import androidx.annotation.LayoutRes
-import androidx.annotation.StyleRes
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import androidx.annotation.LayoutRes
+import androidx.annotation.StyleRes
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import com.devrapid.dialogbuilder.typedata.DFBtn
 
 /**
@@ -24,7 +24,7 @@ import com.devrapid.dialogbuilder.typedata.DFBtn
 @SuppressLint("ValidFragment")
 class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
     private val mActivity: AppCompatActivity?,
-    private val mFragment: androidx.fragment.app.Fragment?,
+    private val mFragment: Fragment?,
     //region Alert Dialog Parameters
     /** This is for Alert Dialog Parameter. */
     private var title: String?,
@@ -40,7 +40,8 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
      *  Once view is set, the parameters above here will be ignored.
      */
     @LayoutRes private val viewCustom: Int,
-    @StyleRes private var themeStyle: Int? = null
+    @StyleRes private var themeStyle: Int? = null,
+    private var onStartBlock: ((DialogFragment) -> Unit)? = null
     //endregion
 ) : DialogFragment() {
     /** This is for data binding. */
@@ -60,7 +61,8 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
                                                     builder.cancelable,
                                                     builder.tag,
                                                     builder.viewResCustom,
-                                                    builder.themeStyle)
+                                                    builder.themeStyle,
+                                                    builder.onStartBlock)
 
     /**
      * A builder of [QuickDialogBindingFragment].
@@ -90,11 +92,17 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
         var viewResCustom = -1
         @StyleRes
         var themeStyle: Int? = null
+        var onStartBlock: ((DialogFragment) -> Unit)? = null
 
         fun build() = QuickDialogBindingFragment(this)
     }
 
     fun show() = show((mFragment?.fragmentManager ?: mActivity?.supportFragmentManager), mTag)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        onStartBlock?.invoke(this)
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // If viewResCustom is set then create a custom fragment; otherwise, just using simple AlertDialog.

@@ -2,14 +2,14 @@ package com.devrapid.dialogbuilder.support
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.annotation.LayoutRes
-import androidx.annotation.StyleRes
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
+import androidx.annotation.StyleRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import com.devrapid.dialogbuilder.typedata.DFBtn
 
 /**
@@ -19,7 +19,7 @@ import com.devrapid.dialogbuilder.typedata.DFBtn
 @SuppressLint("ValidFragment")
 class QuickDialogFragment private constructor(
     _activity: AppCompatActivity?,
-    _fragment: androidx.fragment.app.Fragment?,
+    _fragment: Fragment?,
     //region Alert Dialog Parameters
     /** This is for Alert Dialog Parameter. */
     private var _title: String = "",
@@ -38,7 +38,8 @@ class QuickDialogFragment private constructor(
     private val _viewCustom: Int,
     @StyleRes
     private var _themeStyle: Int? = null,
-    private var _fetchComponents: ((View, androidx.fragment.app.DialogFragment) -> Unit)? = null
+    private var _fetchComponents: ((View, DialogFragment) -> Unit)? = null,
+    private var _onStartBlock: ((DialogFragment) -> Unit)? = null
     //endregion
 ) : DialogFragmentTemplate(_activity,
                            _fragment,
@@ -50,7 +51,8 @@ class QuickDialogFragment private constructor(
                            _tag,
                            _viewCustom,
                            _themeStyle,
-                           _fetchComponents) {
+                           _fetchComponents,
+                           _onStartBlock) {
     init {
         isCancelable = mCancelable
     }
@@ -68,7 +70,8 @@ class QuickDialogFragment private constructor(
         //region Customize View Parameters
                                                                       builder.viewResCustom,
                                                                       builder.themeStyle,
-                                                                      builder.fetchComponents
+                                                                      builder.fetchComponents,
+                                                                      builder.onStartBlock
         //endregion
     )
 
@@ -76,7 +79,7 @@ class QuickDialogFragment private constructor(
         constructor(activity: AppCompatActivity, block: DialogFragmentTemplate.Builder.() -> Unit) :
             super(activity, block)
 
-        constructor(fragment: androidx.fragment.app.Fragment, block: DialogFragmentTemplate.Builder.() -> Unit) :
+        constructor(fragment: Fragment, block: DialogFragmentTemplate.Builder.() -> Unit) :
             super(fragment, block)
 
         override fun build() = QuickDialogFragment(this)
