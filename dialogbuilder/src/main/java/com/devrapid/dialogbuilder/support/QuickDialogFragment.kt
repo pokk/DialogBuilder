@@ -2,14 +2,12 @@ package com.devrapid.dialogbuilder.support
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.annotation.LayoutRes
-import androidx.annotation.StyleRes
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
+import androidx.annotation.StyleRes
+import androidx.appcompat.app.AppCompatActivity
 import com.devrapid.dialogbuilder.typedata.DFBtn
 
 /**
@@ -84,10 +82,7 @@ class QuickDialogFragment private constructor(
 
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         if (0 < viewCustom) {
-            LayoutInflater
-                .from(activity?.applicationContext)
-                .inflate(viewCustom, null)
-                .also(::onCreateDialogView)
+            inflater.inflate(viewCustom, null).also(::onCreateDialogView)
         }
         else {
             super.onCreateView(inflater, container, savedInstanceState)

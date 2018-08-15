@@ -2,19 +2,19 @@ package com.devrapid.dialogbuilder.support
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import android.os.Bundle
-import androidx.annotation.LayoutRes
-import androidx.annotation.StyleRes
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import androidx.annotation.LayoutRes
+import androidx.annotation.StyleRes
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import com.devrapid.dialogbuilder.typedata.DFBtn
 
 /**
@@ -124,10 +124,7 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         if (0 < viewCustom) {
-            binding = DataBindingUtil.inflate(LayoutInflater.from(activity?.applicationContext),
-                                              viewCustom,
-                                              null,
-                                              false)!!
+            binding = DataBindingUtil.inflate(inflater, viewCustom, null, false)!!
             bind(binding)
             binding.root
         }
