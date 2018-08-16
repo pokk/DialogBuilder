@@ -108,7 +108,7 @@ allprojects {
 And add our dependency to your app `bundle.gradle`.
 
 ```gradle
-implementation 'com.devrapid.jieyi:dialogbuilder:1.0.3'
+implementation 'com.devrapid.jieyi:dialogbuilder:1.0.5'
 ```
 
 # Maven
@@ -117,7 +117,7 @@ implementation 'com.devrapid.jieyi:dialogbuilder:1.0.3'
 <dependency>
   <groupId>com.devrapid.jieyi</groupId>
   <artifactId>dialogbuilder</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.5</version>
   <type>pom</type>
 </dependency>
 ```

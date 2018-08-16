@@ -132,10 +132,7 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         if (0 < viewCustom) {
-            binding = DataBindingUtil.inflate(LayoutInflater.from(activity?.applicationContext),
-                                              viewCustom,
-                                              container,
-                                              false)!!
+            binding = DataBindingUtil.inflate(inflater, viewCustom, container, false)!!
             bind(binding)
             binding.root
         }
