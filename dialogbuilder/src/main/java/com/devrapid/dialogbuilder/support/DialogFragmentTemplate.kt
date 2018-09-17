@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.app.Dialog.BUTTON_NEGATIVE
 import android.app.Dialog.BUTTON_POSITIVE
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -48,6 +49,9 @@ abstract class DialogFragmentTemplate internal constructor(
     private var onStartBlock: ((DialogFragmentTemplate) -> Unit)? = null
     //endregion
 ) : DialogFragment() {
+    open var isDismiss = false
+        protected set
+
     init {
         isCancelable = mCancelable
     }
@@ -152,9 +156,19 @@ abstract class DialogFragmentTemplate internal constructor(
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        isDismiss = false
+    }
+
     override fun onDetach() {
         super.onDetach()
         fetchComponents = null
+    }
+
+    override fun onDismiss(dialog: DialogInterface?) {
+        super.onDismiss(dialog)
+        isDismiss = true
     }
 
     abstract fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
