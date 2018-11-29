@@ -27,10 +27,10 @@ dependencies {
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
     implementation "org.jetbrains.anko:anko-sdk25:$anko_version"
     // Jieyi
-    debugImplementation "com.devrapid.jieyi:kotlinknifer:1.5.7"
+    debugImplementation "com.devrapid.jieyi:kotlinknifer:2.1.1"
     // sdk15, sdk19, sdk21, sdk23 are also available
     implementation "org.jetbrains.anko:anko-sdk25-coroutines:$anko_version"
-    implementation "androidx.appcompat:appcompat:1.0.0-alpha3"
+    implementation "androidx.appcompat:appcompat:1.0.2"
 }
 repositories {
     mavenCentral()
