@@ -41,7 +41,8 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
      */
     @LayoutRes private val viewCustom: Int,
     @StyleRes private var themeStyle: Int? = null,
-    private var onStartBlock: ((DialogFragment) -> Unit)? = null
+    private var onStartBlock: ((DialogFragment) -> Unit)? = null,
+    private var onTransitionBlock: ((Dialog) -> Unit)? = null
     //endregion
 ) : DialogFragment() {
     /** This is for data binding. */
@@ -62,7 +63,8 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
                                                     builder.tag,
                                                     builder.viewResCustom,
                                                     builder.themeStyle,
-                                                    builder.onStartBlock)
+                                                    builder.onStartBlock,
+                                                    builder.onTransitionBlock)
 
     /**
      * A builder of [QuickDialogBindingFragment].
@@ -93,6 +95,7 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
         @StyleRes
         var themeStyle: Int? = null
         var onStartBlock: ((DialogFragment) -> Unit)? = null
+        var onTransitionBlock: ((Dialog) -> Unit)? = null
 
         fun build() = QuickDialogBindingFragment(this)
     }
@@ -102,6 +105,11 @@ class QuickDialogBindingFragment<B : ViewDataBinding> private constructor(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         onStartBlock?.invoke(this)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        onTransitionBlock?.invoke(dialog)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

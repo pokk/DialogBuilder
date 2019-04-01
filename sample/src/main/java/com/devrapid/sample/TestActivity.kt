@@ -1,8 +1,8 @@
 package com.devrapid.sample
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.devrapid.dialogbuilder.support.QuickDialogBindingFragment
 import com.devrapid.dialogbuilder.support.QuickDialogFragment
 import com.devrapid.sample.databinding.FragmentDialogBindBinding
@@ -27,6 +27,9 @@ class TestActivity : AppCompatActivity() {
                     /* What you want to do! */
                 }
                 v.tv.text = "I was clicked!"
+            }
+            onTransitionBlock = {
+                it.window?.attributes.windowAnimations = R.style.DialogAnimation
             }
         }.build()
 

@@ -46,7 +46,8 @@ abstract class DialogFragmentTemplate internal constructor(
     @StyleRes
     private var themeStyle: Int? = null,
     private var fetchComponents: ((View, DialogFragment) -> Unit)? = null,
-    private var onStartBlock: ((DialogFragmentTemplate) -> Unit)? = null
+    private var onStartBlock: ((DialogFragmentTemplate) -> Unit)? = null,
+    private var onTransitionBlock: ((Dialog) -> Unit)? = null
     //endregion
 ) : DialogFragment() {
     open var isDismiss = false
@@ -66,7 +67,9 @@ abstract class DialogFragmentTemplate internal constructor(
                                                  builder.tag,
                                                  builder.viewResCustom,
                                                  builder.themeStyle,
-                                                 builder.fetchComponents)
+                                                 builder.fetchComponents,
+                                                 builder.onStartBlock,
+                                                 builder.onTransitionBlock)
 
     /**
      * A builder of [DialogFragmentTemplate].
@@ -98,6 +101,7 @@ abstract class DialogFragmentTemplate internal constructor(
         var themeStyle: Int? = null
         var fetchComponents: ((View, DialogFragment) -> Unit)? = null
         var onStartBlock: ((DialogFragment) -> Unit)? = null
+        var onTransitionBlock: ((Dialog) -> Unit)? = null
 
         abstract fun build(): DialogFragmentTemplate
     }
@@ -107,6 +111,11 @@ abstract class DialogFragmentTemplate internal constructor(
     override fun onStart() {
         super.onStart()
         onStartBlock?.invoke(this)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        onTransitionBlock?.invoke(dialog)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

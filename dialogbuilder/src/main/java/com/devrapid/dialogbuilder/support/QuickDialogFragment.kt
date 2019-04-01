@@ -1,6 +1,7 @@
 package com.devrapid.dialogbuilder.support
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,7 +40,8 @@ class QuickDialogFragment private constructor(
     @StyleRes
     private var _themeStyle: Int? = null,
     private var _fetchComponents: ((View, DialogFragment) -> Unit)? = null,
-    private var _onStartBlock: ((DialogFragment) -> Unit)? = null
+    private var _onStartBlock: ((DialogFragment) -> Unit)? = null,
+    private var _onTransitionBlock: ((Dialog) -> Unit)? = null
     //endregion
 ) : DialogFragmentTemplate(_activity,
                            _fragment,
@@ -52,26 +54,28 @@ class QuickDialogFragment private constructor(
                            _viewCustom,
                            _themeStyle,
                            _fetchComponents,
-                           _onStartBlock) {
+                           _onStartBlock,
+                           _onTransitionBlock) {
     init {
         isCancelable = mCancelable
     }
 
-    private constructor (builder: QuickDialogFragment.Builder) : this(builder.activity,
-                                                                      builder.parentFragment,
+    private constructor (builder: Builder) : this(builder.activity,
+                                                  builder.parentFragment,
         //region Alert Dialog Parameters
-                                                                      builder.title,
-                                                                      builder.message,
-                                                                      builder.btnPositiveText,
-                                                                      builder.btnNegativeText,
-                                                                      builder.cancelable,
-                                                                      builder.tag,
+                                                  builder.title,
+                                                  builder.message,
+                                                  builder.btnPositiveText,
+                                                  builder.btnNegativeText,
+                                                  builder.cancelable,
+                                                  builder.tag,
         //endregion
         //region Customize View Parameters
-                                                                      builder.viewResCustom,
-                                                                      builder.themeStyle,
-                                                                      builder.fetchComponents,
-                                                                      builder.onStartBlock
+                                                  builder.viewResCustom,
+                                                  builder.themeStyle,
+                                                  builder.fetchComponents,
+                                                  builder.onStartBlock,
+                                                  builder.onTransitionBlock
         //endregion
     )
 
